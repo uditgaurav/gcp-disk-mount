@@ -8,6 +8,15 @@
 | `DISK_ID`            | Identifier for the disk to be mounted.            | `persistent-disk-1`      |
 | `MOUNT_POINT`        | Directory where the disk will be mounted.         | `/home/user/mount_point` |
 
+## Create Secret For VM Password
+
+Use the following command to create secret for VM Password.
+
+```bash
+kubectl create secret generic vm-pass -n hce  --from-literal=VM_PASS=myvmpassword
+```
+
+Note: Here `hce` is the CHAOS_NAMESPACE (where the chaos infra is installed) and `myvmpassword` is a dummy password for your reference. 
 
 ## Sample Pod With Password
 
