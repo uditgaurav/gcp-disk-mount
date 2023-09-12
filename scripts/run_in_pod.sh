@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, DISK_ID=$DISK_ID, MOUNT_POINT=$MOUNT_POINT"
+
 cat <<EOF > /tmp/service-account.json
 {
   "type": "$(cat /etc/cloud-secret/type)",
@@ -14,6 +16,10 @@ cat <<EOF > /tmp/service-account.json
   "client_x509_cert_url": "$(cat /etc/cloud-secret/client_x509_cert_url)"
 }
 EOF
+
+if [ ! -f "/root/.ssh/google_compute_engine" ]; then
+    ssh-keygen -t rsa -f /root/.ssh/google_compute_engine -N ""
+fi
 
 gcloud auth activate-service-account --key-file=/tmp/service-account.json
 gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DISK_ID $MOUNT_POINT"
