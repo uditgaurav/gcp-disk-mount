@@ -1,10 +1,12 @@
 ## Mount Path Setup
 
-| Environment Variable | Description                                       | Example Value            |
-|----------------------|---------------------------------------------------|--------------------------|
-| `VM_USER`            | Username for the VM you are connecting to.        | `username`               |
-| `DISK_ID`            | Identifier for the disk to be mounted.            | `persistent-disk-1`      |
-| `MOUNT_POINT`        | Directory where the disk will be mounted.         | `/home/user/mount_point` |
+| Environment Variable | Description                                                   | Example Value        |
+|----------------------|---------------------------------------------------------------|----------------------|
+| `VM_USER`            | Username for the VM you are connecting to.                    | `username`           |
+| `INSTANCE_NAME`      | Name of the Google Compute Engine instance.                   | `my-instance`        |
+| `ZONE`               | The zone where your Google Compute Engine instance is located.| `us-central1-a`      |
+| `DISK_ID`            | Identifier for the disk to be mounted.                        | `persistent-disk-1`  |
+| `MOUNT_POINT`        | Directory where the disk will be mounted.                     | `/home/user/mount_point` |
 
 ## Sample Pod With Password
 
