@@ -8,7 +8,7 @@
 | `DISK_ID`            | Identifier for the disk to be mounted.                        | `persistent-disk-1`  |
 | `MOUNT_POINT`        | Directory where the disk will be mounted.                     | `/home/user/mount_point` |
 
-## Sample Pod With Password
+## Sample Pod
 
 ```yaml
 apiVersion: v1
