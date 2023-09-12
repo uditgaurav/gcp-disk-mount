@@ -2,16 +2,16 @@
 
 cat <<EOF > /tmp/service-account.json
 {
-  "type": "$(cat /etc/secret-volume/type)",
-  "project_id": "$(cat /etc/secret-volume/project_id)",
-  "private_key_id": "$(cat /etc/secret-volume/private_key_id)",
-  "private_key": "$(cat /etc/secret-volume/private_key)",
-  "client_email": "$(cat /etc/secret-volume/client_email)",
-  "client_id": "$(cat /etc/secret-volume/client_id)",
-  "auth_uri": "$(cat /etc/secret-volume/auth_uri)",
-  "token_uri": "$(cat /etc/secret-volume/token_uri)",
-  "auth_provider_x509_cert_url": "$(cat /etc/secret-volume/auth_provider_x509_cert_url)",
-  "client_x509_cert_url": "$(cat /etc/secret-volume/client_x509_cert_url)"
+  "type": "$(cat /etc/cloud-secret/type)",
+  "project_id": "$(cat /etc/cloud-secret/project_id)",
+  "private_key_id": "$(cat /etc/cloud-secret/private_key_id)",
+  "private_key": "$(cat /etc/cloud-secret/private_key)",
+  "client_email": "$(cat /etc/cloud-secret/client_email)",
+  "client_id": "$(cat /etc/cloud-secret/client_id)",
+  "auth_uri": "$(cat /etc/cloud-secret/auth_uri)",
+  "token_uri": "$(cat /etc/cloud-secret/token_uri)",
+  "auth_provider_x509_cert_url": "$(cat /etc/cloud-secret/auth_provider_x509_cert_url)",
+  "client_x509_cert_url": "$(cat /etc/cloud-secret/client_x509_cert_url)"
 }
 EOF
 
