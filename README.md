@@ -32,7 +32,7 @@ volumeMounts:
   mountPath: /root/.ssh
 ```
 
-## Pod to mount the path
+## Sample Pod With Password
 
 ```yaml
 apiVersion: v1
