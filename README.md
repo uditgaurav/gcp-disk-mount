@@ -31,3 +31,33 @@ volumeMounts:
 - name: ssh-key
   mountPath: /root/.ssh
 ```
+
+## Pod to mount the path
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gcp-disk-mount-pod
+  labels:
+    purpose: demonstrate-gcp-disk-mount
+spec:
+  containers:
+  - name: gcp-disk-mount-container
+    image: uditgaurav/gcp:0.1.0
+    imagePullPolicy: Always
+    command: ["/bin/sh", "-c"]
+    args: ["/usr/local/bin/run_in_pod.sh"]
+    env:
+      - name: VM_USER
+        value: "your_vm_user"
+      - name: VM_IP
+        value: "your_vm_ip"
+      - name: VM_PASS
+        value: "your_vm_pass"
+      - name: DISK_ID
+        value: "your_disk_id"
+      - name: MOUNT_POINT
+        value: "your_mount_point"
+
+```
