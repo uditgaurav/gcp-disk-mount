@@ -1,20 +1,19 @@
 #!/bin/bash
 
-# Variables from Environment
-VM_USER="${VM_USER}"          
-VM_IP="${VM_IP}"               
-VM_PASS="${VM_PASS}"        
-DISK_ID="${DISK_ID}"   
-MOUNT_POINT="${MOUNT_POINT}" 
-
-# SSH into the VM and run the script
-sshpass -p $VM_PASS ssh -t -o StrictHostKeyChecking=no $VM_USER@$VM_IP << EOF
-  # Download the script
-  sudo curl -O https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh
-  
-  # Make the script executable
-  sudo chmod +x auto_mount.sh
-  
-  # Run the script
-  sudo bash auto_mount.sh $DISK_ID $MOUNT_POINT
+cat <<EOF > /tmp/service-account.json
+{
+  "type": "$(cat /etc/secret-volume/type)",
+  "project_id": "$(cat /etc/secret-volume/project_id)",
+  "private_key_id": "$(cat /etc/secret-volume/private_key_id)",
+  "private_key": "$(cat /etc/secret-volume/private_key)",
+  "client_email": "$(cat /etc/secret-volume/client_email)",
+  "client_id": "$(cat /etc/secret-volume/client_id)",
+  "auth_uri": "$(cat /etc/secret-volume/auth_uri)",
+  "token_uri": "$(cat /etc/secret-volume/token_uri)",
+  "auth_provider_x509_cert_url": "$(cat /etc/secret-volume/auth_provider_x509_cert_url)",
+  "client_x509_cert_url": "$(cat /etc/secret-volume/client_x509_cert_url)"
+}
 EOF
+
+gcloud auth activate-service-account --key-file=/tmp/service-account.json
+gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DISK_ID $MOUNT_POINT"

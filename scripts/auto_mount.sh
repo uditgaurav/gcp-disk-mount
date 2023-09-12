@@ -38,6 +38,7 @@ fi
 # Check if the disk is already mounted to the given path
 if mountpoint -q $MOUNT_POINT; then
   echo "Disk is already mounted to $MOUNT_POINT."
+  echo "Disk mounted successfully."
   exit 0
 fi
 
