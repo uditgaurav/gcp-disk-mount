@@ -13,6 +13,7 @@ RUN apt-get update \
     openssh-client \
     curl \
     bash \
+    sshpass \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the script into the container
