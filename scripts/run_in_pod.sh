@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, DISK_ID=$DISK_ID, MOUNT_POINT=$MOUNT_POINT"
+echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, DEVICE_NAME=$DEVICE_NAME, MOUNT_POINT=$MOUNT_POINT"
 
 cat <<EOF > /tmp/service-account.json
 {
@@ -22,4 +22,4 @@ if [ ! -f "/root/.ssh/google_compute_engine" ]; then
 fi
 
 gcloud auth activate-service-account --key-file=/tmp/service-account.json
-gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DISK_ID $MOUNT_POINT"
+gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DEVICE_NAME $MOUNT_POINT"

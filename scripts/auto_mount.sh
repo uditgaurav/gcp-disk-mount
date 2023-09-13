@@ -1,9 +1,9 @@
 #!/bin/bash
 
 find_device_path() {
-  local disk_id=$1
+  local DEVICE_NAME=$1
   for dev in /dev/disk/by-id/*; do
-    if [[ $dev == *"$disk_id"* ]]; then
+    if [[ $dev == *"$DEVICE_NAME"* ]]; then
       echo $(readlink -f $dev)
       return 0
     fi
@@ -12,16 +12,16 @@ find_device_path() {
 }
 
 if [ "$#" -ne 2 ]; then
-  echo "Usage: $0 <disk_id> <mount_point>"
+  echo "Usage: $0 <device_name> <mount_point>"
   exit 1
 fi
 
-DISK_ID="$1"
+DEVICE_NAME="$1"
 MOUNT_POINT="$2"
-DISK=$(find_device_path $DISK_ID)
+DISK=$(find_device_path $DEVICE_NAME)
 
 if [ -z "$DISK" ]; then
-  echo "Error: Disk with ID $DISK_ID does not exist."
+  echo "Error: Disk with ID $DEVICE_NAME does not exist."
   exit 1
 fi
 

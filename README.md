@@ -5,7 +5,7 @@
 | `VM_USER`            | Username for the VM you are connecting to.                    | `username`           |
 | `INSTANCE_NAME`      | Name of the Google Compute Engine instance.                   | `my-instance`        |
 | `ZONE`               | The zone where your Google Compute Engine instance is located.| `us-central1-a`      |
-| `DISK_ID`            | Identifier for the disk to be mounted.                        | `persistent-disk-1`  |
+| `DEVICE_NAME`            | Identifier for the disk to be mounted.                        | `persistent-disk-1`  |
 | `MOUNT_POINT`        | Directory where the disk will be mounted.                     | `/home/user/mount_point` |
 
 ## Sample Pod
@@ -30,7 +30,7 @@ spec:
           value: "gke-cluster-1-default-pool-c742a4dd-3mnf"
         - name: ZONE
           value: "us-central1-c"
-        - name: DISK_ID
+        - name: DEVICE_NAME
           value: "persistent-disk-1"
         - name: MOUNT_POINT
           value: "/home/uditgaurav/mydisk"
@@ -70,7 +70,7 @@ probe:
             value: gke-cluster-1-default-pool-c742a4dd-3mnf
             - name: ZONE
             value: us-central1-c
-            - name: DISK_ID
+            - name: DEVICE_NAME
             value: persistent-disk-1
             - name: MOUNT_POINT
             value: /home/uditgaurav/mydisk
