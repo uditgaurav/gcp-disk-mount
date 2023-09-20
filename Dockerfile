@@ -16,6 +16,7 @@ RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
     /usr/local/google-cloud-sdk/install.sh --quiet && \
     rm google-cloud-sdk-446.0.0-linux-x86_64.tar.gz
 
+ENV PATH $PATH:/usr/local/google-cloud-sdk/bin
 
 COPY scripts/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/run_auto_mount_in_pod.sh && chmod +x /usr/local/bin/run_get_disk_uuid_in_pod.sh
