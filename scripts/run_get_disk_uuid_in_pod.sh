@@ -29,4 +29,4 @@ gcloud compute scp ./get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
 exec > /dev/fd/3 2>/dev/fd/4
 
 UUID_OUTPUT=$(gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && sudo bash ~/get-disk-uuid.sh $MOUNT_POINT")
-echo '{ print $NF }'
+echo $UUID_OUTPUT | awk '{ print $NF }' 
