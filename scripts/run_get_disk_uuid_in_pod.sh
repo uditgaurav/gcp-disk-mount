@@ -23,8 +23,11 @@ if [ ! -f "$HOME/.ssh/google_compute_engine" ]; then
     ssh-keygen -t rsa -f $HOME/.ssh/google_compute_engine -N ""
 fi
 
+export CLOUDSDK_CORE_PROJECT=$(cat /etc/cloud-secret/project_id)
+
 gcloud auth activate-service-account --key-file=/tmp/service-account.json
-gcloud compute scp ./get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
+gcloud compute scp ./usr/local/bin/get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
+
 
 exec > /dev/fd/3 2>/dev/fd/4
 
