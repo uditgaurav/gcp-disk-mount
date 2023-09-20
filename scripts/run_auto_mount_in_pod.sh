@@ -22,4 +22,4 @@ if [ ! -f "/root/.ssh/google_compute_engine" ]; then
 fi
 
 gcloud auth activate-service-account --key-file=/tmp/service-account.json
-gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DEVICE_NAME $MOUNT_POINT"
+gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="sudo bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/auto_mount.sh) $DEVICE_NAME $MOUNT_POINT"
