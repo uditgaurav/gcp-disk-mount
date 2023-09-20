@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, DEVICE_NAME=$DEVICE_NAME, MOUNT_POINT=$MOUNT_POINT"
+echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, MOUNT_POINT=$MOUNT_POINT"
 
+# Create service account JSON file from existing secrets
 cat <<EOF > /tmp/service-account.json
 {
   "type": "$(cat /etc/cloud-secret/type)",
@@ -17,9 +18,16 @@ cat <<EOF > /tmp/service-account.json
 }
 EOF
 
-if [ ! -f "/root/.ssh/google_compute_engine" ]; then
-    ssh-keygen -t rsa -f /root/.ssh/google_compute_engine -N ""
+# Generate SSH keys if not present
+if [ ! -f "$HOME/.ssh/google_compute_engine" ]; then
+    ssh-keygen -t rsa -f $HOME/.ssh/google_compute_engine -N ""
 fi
 
+# Activate Google Cloud service account
 gcloud auth activate-service-account --key-file=/tmp/service-account.json
-gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="sudo bash <(curl -s https://raw.githubusercontent.com/uditgaurav/gcp-disk-mount/master/scripts/get-disk-uuid.sh) ${1} $DEVICE_NAME $MOUNT_POINT"
+
+# Copy the script to the VM
+gcloud compute scp ./get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
+
+# SSH into the VM, make the script executable and run it
+gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && sudo bash ~/get-disk-uuid.sh $MOUNT_POINT"
