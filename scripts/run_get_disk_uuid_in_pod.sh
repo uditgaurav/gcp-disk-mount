@@ -31,3 +31,4 @@ gcloud compute scp ./get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
 
 # SSH into the VM, make the script executable and run it
 gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && sudo bash ~/get-disk-uuid.sh $MOUNT_POINT"
+echo "PASS"
