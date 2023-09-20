@@ -64,15 +64,15 @@ probe:
         image: docker.io/chaosnative/gcp:0.1.0
         inheritInputs: false
         env:
-            - name: VM_USER
+          - name: VM_USER
             value: uditgaurav
-            - name: INSTANCE_NAME
+          - name: INSTANCE_NAME
             value: gke-cluster-1-default-pool-c742a4dd-3mnf
-            - name: ZONE
+          - name: ZONE
             value: us-central1-c
-            - name: DEVICE_NAME
+          - name: DEVICE_NAME
             value: persistent-disk-1
-            - name: MOUNT_POINT
+          - name: MOUNT_POINT
             value: /home/uditgaurav/mydisk
         secrets:
             - name: cloud-secret
