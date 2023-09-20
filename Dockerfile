@@ -17,6 +17,6 @@ RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
     rm google-cloud-sdk-446.0.0-linux-x86_64.tar.gz
 
 
-COPY scripts/run_in_pod.sh /usr/local/bin/run_in_pod.sh
-RUN chmod +x /usr/local/bin/run_in_pod.sh
+COPY scripts/ /usr/local/bin/run_in_pod.sh
+RUN chmod +x /usr/local/bin/run_in_pod.sh && chmod +x /usr/local/bin/get-disk-uuid.sh && chmod +x /usr/local/bin/auto_mount.sh
 ENTRYPOINT ["/usr/local/bin/run_in_pod.sh"]
