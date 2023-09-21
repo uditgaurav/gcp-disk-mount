@@ -35,8 +35,7 @@ if [ ! -z "$STALE_MOUNT" ]; then
     echo "Error: Unable to unmount stale mount at $MOUNT_POINT."
     exit 1
   else
-    echo "Path $MOUNT_POINT was already present. Unmounted it successfully."
-    exit 0
+    echo "Path $MOUNT_POINT had a stale mount. Unmounted it successfully."
   fi
 fi
 
@@ -50,17 +49,25 @@ if [ ! -d $MOUNT_POINT ]; then
 fi
 
 echo "Mounting $DISK to $MOUNT_POINT..."
-sudo mount -o discard,defaults $DISK $MOUNT_POINT 2>&1 | grep -q "already mounted" 
-if [ $? -eq 0 ]; then
-  echo "Device $DISK is already mounted at $MOUNT_POINT. So Disk mounted successfully."
-  exit 0
-elif [ $? -ne 0 ]; then
+
+if [ -z "$MOUNT_OPTIONS" ]; then
+  sudo mount $DISK $MOUNT_POINT
+else
+  sudo mount -o $MOUNT_OPTIONS $DISK $MOUNT_POINT
+fi
+
+if [ $? -ne 0 ]; then
   echo "Error: Unable to mount $DISK to $MOUNT_POINT."
   exit 1
 fi
 
-echo "Automatically adding UUID=$UUID $MOUNT_POINT ext4 discard,defaults,nofail 0 0 to /etc/fstab..."
-echo "UUID=$UUID $MOUNT_POINT ext4 discard,defaults,nofail 0 0" | sudo tee -a /etc/fstab
+if [ -z "$MOUNT_OPTIONS" ]; then
+    echo "Automatically adding UUID=$UUID $MOUNT_POINT ext4 0 0 to /etc/fstab..."
+    echo "UUID=$UUID $MOUNT_POINT ext4 0 0" | sudo tee -a /etc/fstab
+else
+    echo "Automatically adding UUID=$UUID $MOUNT_POINT ext4 $MOUNT_OPTIONS 0 0 to /etc/fstab..."
+    echo "UUID=$UUID $MOUNT_POINT ext4 $MOUNT_OPTIONS 0 0" | sudo tee -a /etc/fstab
+fi
 if [ $? -ne 0 ]; then
   echo "Error: Unable to update /etc/fstab."
   exit 1

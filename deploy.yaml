@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: uditgaurav/gcp:0.1.0
+        imagePullPolicy: Always
+        env:
+        - name: VM_USER
+          value: uditgaurav
+        - name: INSTANCE_NAME
+          value: gke-cluster-1-default-pool-c742a4dd-d5k7
+        - name: ZONE
+          value: us-central1-c
+        - name: MOUNT_POINT
+          value: /home/uditgaurav/mydisk
+        command: ["/bin/sh", "-c"]
+        args: ["sleep 10000"]
+        volumeMounts:
+        - name: cloud-secret-volume
+          mountPath: /etc/cloud-secret
+      volumes:
+      - name: cloud-secret-volume
+        secret:
+          secretName: cloud-secret
+
