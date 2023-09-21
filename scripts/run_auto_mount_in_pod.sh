@@ -31,5 +31,5 @@ gcloud auth activate-service-account --key-file=/tmp/service-account.json
 # Copy the script to the VM
 gcloud compute scp ./usr/local/bin/auto_mount.sh $VM_USER@$INSTANCE_NAME:~/ --zone=$ZONE
 
-# SSH into the VM, make the script executable, and run it with UUID as the first argument
-gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/auto_mount.sh && sudo bash ~/auto_mount.sh '$UUID' '$DEVICE_NAME' '$MOUNT_POINT'"
+cmd="chmod +x ~/auto_mount.sh && sudo bash ~/auto_mount.sh $UUID $DEVICE_NAME $MOUNT_POINT"
+gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="$cmd"
