@@ -2,7 +2,7 @@
 
 find_device_path_by_uuid() {
   local UUID=$1
-  local DEVICE=$(sudo blkid | grep "$UUID" | awk -F ':' '{print $1}')
+  local DEVICE=$(sudo blkid | grep "UUID=\"$UUID\"" | awk -F ':' '{print $1}')
   if [ -z "$DEVICE" ]; then
     echo "Error: Unable to find device with UUID $UUID."
     exit 1
