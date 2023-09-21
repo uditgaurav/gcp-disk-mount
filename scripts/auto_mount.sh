@@ -10,15 +10,17 @@ find_device_path_by_uuid() {
   echo "$DEVICE"
 }
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage: $0 <uuid> <device_name> <mount_point>"
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <uuid>"
+  exit 1
+fi
+
+if [ -z "$MOUNT_POINT" ] || [ -z "$MOUNT_OPTIONS" ]; then
+  echo "Error: MOUNT_POINT and MOUNT_OPTIONS must be set as environment variables."
   exit 1
 fi
 
 UUID="$1"
-DEVICE_NAME="$2"
-MOUNT_POINT="$3"
-
 DISK=$(find_device_path_by_uuid $UUID)
 
 if [ -z "$DISK" ]; then
@@ -49,7 +51,6 @@ if [ ! -d $MOUNT_POINT ]; then
 fi
 
 echo "Mounting $DISK to $MOUNT_POINT..."
-
 if [ -z "$MOUNT_OPTIONS" ]; then
   sudo mount $DISK $MOUNT_POINT
 else
@@ -61,13 +62,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+echo "Updating /etc/fstab..."
 if [ -z "$MOUNT_OPTIONS" ]; then
-    echo "Automatically adding UUID=$UUID $MOUNT_POINT ext4 0 0 to /etc/fstab..."
-    echo "UUID=$UUID $MOUNT_POINT ext4 0 0" | sudo tee -a /etc/fstab
+    echo "UUID=$UUID $MOUNT_POINT ext4 defaults 0 0" | sudo tee -a /etc/fstab
 else
-    echo "Automatically adding UUID=$UUID $MOUNT_POINT ext4 $MOUNT_OPTIONS 0 0 to /etc/fstab..."
     echo "UUID=$UUID $MOUNT_POINT ext4 $MOUNT_OPTIONS 0 0" | sudo tee -a /etc/fstab
 fi
+
 if [ $? -ne 0 ]; then
   echo "Error: Unable to update /etc/fstab."
   exit 1
