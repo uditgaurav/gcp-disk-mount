@@ -10,17 +10,15 @@ find_device_path_by_uuid() {
   echo "$DEVICE"
 }
 
-if [ "$#" -ne 1 ]; then
-  echo "Usage: $0 <uuid>"
-  exit 1
-fi
-
-if [ -z "$MOUNT_POINT" ] || [ -z "$MOUNT_OPTIONS" ]; then
-  echo "Error: MOUNT_POINT and MOUNT_OPTIONS must be set as environment variables."
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 <uuid> <mount_point> [mount_options]"
   exit 1
 fi
 
 UUID="$1"
+MOUNT_POINT="$2"
+MOUNT_OPTIONS="${3:-$MOUNT_OPTIONS}"
+
 DISK=$(find_device_path_by_uuid $UUID)
 
 if [ -z "$DISK" ]; then
