@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${SUDO_ENABLED:=true}
+
 echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, DEVICE_NAME=$DEVICE_NAME, MOUNT_POINT=$MOUNT_POINT, UUID=${1}"
 
 # Create service account JSON file from existing secrets

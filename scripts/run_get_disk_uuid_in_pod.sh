@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${SUDO_ENABLED:=true}
+
 exec 3>&1 4>&2 > /dev/null 2>&1
 
 echo "Debug: VM_USER=$VM_USER, INSTANCE_NAME=$INSTANCE_NAME, ZONE=$ZONE, MOUNT_POINT=$MOUNT_POINT"
