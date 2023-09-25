@@ -30,6 +30,10 @@ gcloud compute scp ./usr/local/bin/get-disk-uuid.sh $VM_USER@$INSTANCE_NAME:~/ -
 
 
 exec > /dev/fd/3 2>/dev/fd/4
+if [ "$SUDO_ENABLED" == "true" ]; then
+  UUID_OUTPUT=$(gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && sudo bash ~/get-disk-uuid.sh $MOUNT_POINT")
+else
+  UUID_OUTPUT=$(gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && bash ~/get-disk-uuid.sh $MOUNT_POINT")
+fi
 
-UUID_OUTPUT=$(gcloud compute ssh $VM_USER@$INSTANCE_NAME --zone=$ZONE --command="chmod +x ~/get-disk-uuid.sh && sudo bash ~/get-disk-uuid.sh $MOUNT_POINT")
 echo $UUID_OUTPUT | awk '{ print $NF }' 
